@@ -70,6 +70,6 @@ Club's goals against: 27
 Goal Difference: 48
 ```
 
-##Exercise 3
+## Exercise 3
 This exercise `Exercise3.java`, `Exercise1Redo.java`, and `Exercise2Redo.java` re-factored the code in Exercise 1 and 2 to take advantage of shared code.
 The inputs and outputs are the same as previous exercises.
