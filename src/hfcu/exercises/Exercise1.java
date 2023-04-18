@@ -26,8 +26,13 @@ public class Exercise1 {
 		findMinMaxSpread();
 	}
 	
-	// read in input file
-	public void readInputFile(String fileName) throws Exception {
+	/**
+	 * Reads in the input CSV file and builds the data set of DailyTemp objects.
+	 * @param fileName The fully qualified name of the input file.
+	 * @throws FileNotFoundException Throws this when the file specified does not exist. 
+	 * @throws Exception Throws this when errors occur parsing the input and translating this into a DailyTemp object
+	 */
+	public void readInputFile(String fileName) throws FileNotFoundException, Exception {
 		File input = new File(fileName);
 		// ensure file exists before attempting to parse
 		if ( !input.exists() ) {
@@ -44,6 +49,9 @@ public class Exercise1 {
 		scan.close();
 	}
 	
+	/**
+	 * Traverses through the sorted data set to find all instances that match the minimum and maximum spread. 
+	 */
 	public void findMinMaxSpread() {
 		Collections.sort(dataSet);
 		// find minimum spread
@@ -51,27 +59,32 @@ public class Exercise1 {
 		int maxSpread = dataSet.get(dataSet.size() - 1).tempSpread;
 		for ( DailyTemp day : dataSet ) {
 			if ( day.tempSpread == minSpread ) {
-				System.out.println("Date with smallest temperature spread:");
+				System.out.println("Date(s) with smallest temperature spread:");
 				System.out.println(day.getOutput());
 			}
 		}
 		for ( DailyTemp day : dataSet ) {
 			if ( day.tempSpread == maxSpread ) {
-				System.out.println("Date with smallest temperature spread:");
+				System.out.println("Date(s) with smallest temperature spread:");
 				System.out.println(day.getOutput());
 			}
 		}
 	}
 }
 
+/**
+ * This class defines the object consisting of daily temperature data
+ * @author Scott Trevett
+ *
+ */
 class DailyTemp implements Comparable<DailyTemp> {
 	// fields from input
-	String date;
-	int minTemp;
-	int maxTemp;
+	String date; // the date of the measurements
+	int minTemp; // the minimum temperature on the date
+	int maxTemp; // the maximum temperature on the date
 	
 	// calculated fields
-	int tempSpread;
+	int tempSpread; // calculated difference between the min and max temperatures
 	
 	public DailyTemp (String input) throws Exception {
 		// check to see if the input string is null
@@ -94,22 +107,25 @@ class DailyTemp implements Comparable<DailyTemp> {
 		
 	}
 	
+	/**
+	 * Builds output string for object
+	 * @return String of relevant object data
+	 */
 	public String getOutput() {
 		StringBuilder output = new StringBuilder();
 		output.append("Date: " + date);
 		output.append("\nMaximum daily temperature: " + maxTemp);
 		output.append("\nMinimum daily temperature: " + minTemp);
-		output.append("\nTemperature Spread: " + getTempSpread());
+		output.append("\nTemperature Spread: " + tempSpread);
 		output.append("\n");
 		return output.toString();
 	}
 	
-	public int getTempSpread() {
-		return this.tempSpread;
-	}
-
+	/**
+	 * Compares the temperature spread field (tempSpread)
+	 */
 	@Override
 	public int compareTo(DailyTemp other) {
-		return Integer.compare(this.getTempSpread(), ((DailyTemp)other).getTempSpread());
+		return Integer.compare(this.tempSpread, ((DailyTemp)other).tempSpread);
 	}
 }

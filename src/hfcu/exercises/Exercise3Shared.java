@@ -6,8 +6,21 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * This is the class for exercise 3.
+ * This is the shared code between exercises 1 and 2.
+ * @author Scott Trevett
+ *
+ */
 public class Exercise3Shared {
-	// read in input file
+	/**
+	 * @param fileName The fully qualified name of the input file
+	 * @param delimiter The column delimiter used in the input file
+	 * @param minNumFields The minimum number of columns needed for input
+	 * @param field1 The column number for the first field to use in the comparison when sorting
+	 * @param field2 The column number for the second field to use in the comparison when sorting
+	 * @return A data set consisting of objects built from the input file.
+	 */
 	public static ArrayList<DataObject> readInputFile(String fileName, String delimiter, int minNumFields, int field1, int field2) throws Exception {
 		ArrayList<DataObject> dataSet = new ArrayList<DataObject>();
 		File input = new File(fileName);
@@ -27,6 +40,11 @@ public class Exercise3Shared {
 		return dataSet;
 	}
 	
+	/**
+	 * Finds the data subset which has the smallest difference.
+	 * @param dataSet The data set to sort and search through.
+	 * @return A list of data objects with the smallest difference.
+	 */
 	public static ArrayList<DataObject> findMinimumDifference(ArrayList<DataObject> dataSet){
 		Collections.sort(dataSet);
 		ArrayList<DataObject> minimumObjects = new ArrayList<DataObject>();
@@ -39,6 +57,11 @@ public class Exercise3Shared {
 		return minimumObjects;
 	}
 	
+	/**
+	 * Finds the data subset which has the largest difference.
+	 * @param dataSet The data set to sort and search through.
+	 * @return A list of data objects with the largest difference.
+	 */
 	public static ArrayList<DataObject> findMaximumDifference(ArrayList<DataObject> dataSet){
 		Collections.sort(dataSet);
 		ArrayList<DataObject> maximumObjects = new ArrayList<DataObject>();
@@ -54,6 +77,11 @@ public class Exercise3Shared {
 
 
 
+/**
+ * This class defines the generic object from the input data files.
+ * @author Scott Trevett
+ *
+ */
 class DataObject implements Comparable<DataObject>{
 
 	String inputLine;
@@ -79,6 +107,12 @@ class DataObject implements Comparable<DataObject>{
 		
 	}
 	
+	/**
+	 * Gets the field 
+	 * @param field The index of the field, this is not the same as the column number.
+	 * @return The string value of the field.
+	 * @throws Exception Throws this when the field value is invalid
+	 */
 	public String getField(int field) throws Exception {
 		if ( field >= inputFields.length || field < 0 ) {
 			throw new Exception ("Field index value is invalid.");
@@ -86,6 +120,9 @@ class DataObject implements Comparable<DataObject>{
 		return inputFields[field];
 	}
 	
+	/**
+	 * Compares the difference fields. (fieldDiff) 
+	 */
 	@Override
 	public int compareTo(DataObject other) {
 		return Integer.compare(fieldDiff, other.fieldDiff);

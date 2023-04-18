@@ -23,7 +23,12 @@ public class Exercise2 {
 		findMinMaxSpread();
 	}
 	
-	// read in input file
+	/**
+	 * Reads in the input CSV file and builds the data set of TeamStats objects.
+	 * @param fileName The fully qualified name of the input file.
+	 * @throws FileNotFoundException Throws this when the file specified does not exist. 
+	 * @throws Exception Throws this when errors occur parsing the input and translating this into a TeamStats object
+	 */
 	private void readInputFile(String fileName) throws Exception {
 		File input = new File(fileName);
 		// ensure file exists before attempting to parse
@@ -41,6 +46,9 @@ public class Exercise2 {
 		scan.close();
 	}
 	
+	/**
+	 * Traverses through the sorted data set to find all instances that match the minimum and maximum spread. 
+	 */
 	private void findMinMaxSpread() {
 		Collections.sort(dataSet);
 		// find minimum spread
@@ -48,28 +56,33 @@ public class Exercise2 {
 		float maxSpread = dataSet.get(dataSet.size() - 1).goalDiff;
 		for ( TeamStats day : dataSet ) {
 			if ( day.goalDiff == minSpread ) {
-				System.out.println("Club with smallest goal difference:");
+				System.out.println("Club(s) with smallest goal difference:");
 				System.out.println(day.getOutput());
 			}
 		}
 		for ( TeamStats day : dataSet ) {
 			if ( day.goalDiff == maxSpread ) {
-				System.out.println("Club with largest goal difference:");
+				System.out.println("Club(s) with largest goal difference:");
 				System.out.println(day.getOutput());
 			}
 		}
 	}
 }
 
+/**
+ * This class defines the object consisting of team stats data
+ * @author Scott Trevett
+ *
+ */
 class TeamStats implements Comparable<TeamStats> {
 	// fields from input
-	String position;
-	String club;
-	int goalsFor;
-	int goalsAgainst;
+	String position; // the club position
+	String club; // the club name
+	int goalsFor; // the number of goals for 
+	int goalsAgainst; // the number of goals against
 	
 	// calculated fields
-	int goalDiff;
+	int goalDiff; // the absolute difference between goals for and against
 	
 	public TeamStats (String input) throws Exception {
 		// check to see if the input string is null
@@ -88,11 +101,15 @@ class TeamStats implements Comparable<TeamStats> {
 		goalsFor = Integer.valueOf(parts[6]);
 		goalsAgainst = Integer.valueOf(parts[7]);
 		
-		// calculate temp spread and set field
+		// calculate absolute goals difference and set field
 		goalDiff = Math.abs(goalsFor - goalsAgainst);
 		
 	}
 	
+	/**
+	 * Builds output string for object
+	 * @return String of relevant object data
+	 */
 	public String getOutput() {
 		StringBuilder output = new StringBuilder();
 		output.append("Club position: " + position);
@@ -104,6 +121,9 @@ class TeamStats implements Comparable<TeamStats> {
 		return output.toString();
 	}
 	
+	/**
+	 * Compares the goal difference (goalDiff)
+	 */
 	@Override
 	public int compareTo(TeamStats other) {
 		return Integer.compare(this.goalDiff, ((TeamStats)other).goalDiff);
